@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import MyHeader from "./../components/MyHeader";
 import MyButton from "../components/MyButton";
 import { DiaryStateContext } from "../App";
+import DiaryList from "../components/DiaryList";
 
 const Home = () => {
   const diaryList = useContext(DiaryStateContext);
@@ -49,6 +50,7 @@ const Home = () => {
         leftChild={<MyButton text={"<"} onClick={decreaseMonth} />}
         rightChild={<MyButton text={">"} onClick={increaseMonth} />}
       />
+      <DiaryList diaryList={data}/>
     </div>
   );
 };
