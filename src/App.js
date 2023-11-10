@@ -77,7 +77,6 @@ function App() {
 
   const [data,dispatch] = useReducer(reducer,dummyData)  // (1) reducer 함수 전달, 기본 state는 빈배열
 
-  console.log(new Date().getTime());
   
   const dataId = useRef(0); // (15) 
   // CREATE
