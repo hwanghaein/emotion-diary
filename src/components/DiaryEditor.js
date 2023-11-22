@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { DiaryDispatchContext } from "./../App.js";
 import MyHeader from "./MyHeader";
 import MyButton from "./MyButton";
 import EmotionItem from "./EmotionItem";
@@ -45,11 +46,20 @@ const DiaryEditor = () => {
   const [emotion, setEmotion] = useState(3);
   const [date, setDate] = useState(getStringDate(new Date()));
 
-  const hangleClickEmote = (emotion) => {
+  const handleClickEmote = (emotion) => {
     setEmotion(emotion);
   };
-
   const navigate = useNavigate();
+
+  const { onCreate } = useContext(DiaryDispatchContext);
+  const handleSubmit = () => {
+    if (content.length < 1) {
+      content.current.focus();
+      return;
+    }
+    onCreate(date, content, emotion);
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="DiaryEditor">
@@ -78,7 +88,7 @@ const DiaryEditor = () => {
               <EmotionItem
                 key={it.emotion_id}
                 {...it}
-                onClick={hangleClickEmote}
+                onClick={handleClickEmote}
                 isSelected={it.emotion_id === emotion}
               />
             ))}
@@ -93,6 +103,12 @@ const DiaryEditor = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
+          </div>
+        </section>
+        <section>
+          <div className="control_box">
+            <MyButton text={"취소하기"} onClick={() => navigate(-1)} />
+            <MyButton text={"작성완료"} type={"positive"} onClick={handleSubmit} />
           </div>
         </section>
       </div>
